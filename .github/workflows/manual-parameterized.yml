@@ -1,4 +1,4 @@
-name: Manual Validation Workflow
+name: Parameterized Manual Workflow
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
       validation_status: ${{ steps.validation.outputs.validation_status }}
 
     steps:
-      - name: Read runtime inputs
+      - name: Print runtime inputs
         run: |
           echo "Application Name: ${{ inputs.application_name }}"
           echo "Run Validation: ${{ inputs.run_validation }}"
@@ -30,10 +30,10 @@ jobs:
         id: validation
         run: |
           if [ "${{ inputs.run_validation }}" = "true" ]; then
-            echo "Validation is enabled."
+            echo "Validation enabled"
             echo "validation_status=success" >> "$GITHUB_OUTPUT"
           else
-            echo "Validation is disabled."
+            echo "Validation skipped"
             echo "validation_status=skipped" >> "$GITHUB_OUTPUT"
           fi
 
@@ -43,7 +43,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Execution summary
+      - name: Print execution summary
         run: |
+          echo "Final execution summary"
+          echo "Application: ${{ inputs.application_name }}"
           echo "Validation completed successfully."
-          echo "Application '${{ inputs.application_name }}' is ready for the next step."
