@@ -1,0 +1,21 @@
+name: deploy-app
+# this is a new commit
+on:
+        workflow_dispatch:
+                inputs:
+                        environment:
+                                description: "Deployment environment"
+                                required: false
+                                default: "dev"
+                        version:
+                               description: "Application version"
+                               required: true        
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print input values
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Version: ${{ inputs.version }}"
